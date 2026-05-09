@@ -15,8 +15,8 @@ public class EffectlessStubBuilder<T> extends StubBuilder<T> implements IStubCon
         return new EffectlessStubBuilder<>(action);
     }
 
-    public static EffectlessStubBuilder<?> doThrow(Throwable value) {
-        Anonymous<?> action = StubActionFactory.ReturnValue(value);
+    public static EffectlessStubBuilder<?> doThrow(Throwable error) {
+        Anonymous<?> action = StubActionFactory.ThrowError(error);
         return new EffectlessStubBuilder<>(action);
     }
 

@@ -1,5 +1,7 @@
 package mockito.clone.mock;
 
+import java.util.Objects;
+
 public abstract class ArgumentMatcher {
     protected abstract boolean matches(Object value);
 
@@ -19,9 +21,14 @@ public abstract class ArgumentMatcher {
         return true;
     }
 
-    public static <K> K eq(final K value) {
+    public static <T> T eq(final T value) {
         ArgumentMatcherCollector.pushArgumentMatcher(equivalentMatcher(value));
         return value;
+    }
+
+    public static <T> T nullOf(Class<T> clazz) {
+        ArgumentMatcherCollector.pushArgumentMatcher(equivalentMatcher(null));
+        return (T) null;
     }
 
     @SuppressWarnings("unchecked")
@@ -49,7 +56,7 @@ public abstract class ArgumentMatcher {
         return new ArgumentMatcher() {
             @Override
             public boolean matches(Object other) {
-                return value.equals(other);
+                return Objects.equals(other, value);
             }
         };
     }

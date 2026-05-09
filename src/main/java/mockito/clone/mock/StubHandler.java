@@ -21,10 +21,10 @@ public class StubHandler extends DispatchHandler implements IStubbable{
 
     @Override
     public void addStub(Method method, MethodStub<?> handler) {
-        List<MethodStub<?>> methodEntry = stubs.get(method.getName());
+        List<MethodStub<?>> methodEntry = stubs.get(getMethodKey(method));
         if (methodEntry == null){
             methodEntry = new ArrayList<>();
-            stubs.put(method.getName(), methodEntry);
+            stubs.put(getMethodKey(method), methodEntry);
         }
 
         methodEntry.add(handler);
@@ -53,12 +53,20 @@ public class StubHandler extends DispatchHandler implements IStubbable{
     }
 
     private MethodStub<?> findMatchingHandler(MethodInvocation inv) {
-        List<MethodStub<?>> methodStubs = stubs.get(inv.method.getName());
+        List<MethodStub<?>> methodStubs = stubs.get(getMethodKey(inv.method));
         if (methodStubs == null) return null;
         for (MethodStub<?> handler : methodStubs) {
             if (handler.shouldHandle(inv)) return handler;
         }
 
         return null;
+    }
+
+    private String getMethodKey(Method method) {
+        StringBuilder key = new StringBuilder(method.getName());
+        for (Class<?> param : method.getParameterTypes()) {
+            key.append(":").append(param.getName());
+        }
+        return key.toString();
     }
 }
