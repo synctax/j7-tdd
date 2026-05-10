@@ -1,2 +1,2 @@
-mockito.clone.processor.TestClassProcessor
-mockito.clone.processor.StaticInterfaceProcessor
+j7.tdd.processor.TestClassProcessor
+j7.tdd.processor.StaticInterfaceProcessor

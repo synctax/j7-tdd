@@ -1,21 +1,21 @@
 package test;
 
-import mockito.clone.mock.ArgumentCaptor;
-import mockito.clone.mock.InOrder;
-import mockito.clone.runner.MockRunner;
-import mockito.clone.test.Assert;
-import mockito.clone.test.Test;
+import j7.tdd.mock.ArgumentCaptor;
+import j7.tdd.mock.InOrder;
+import j7.tdd.runner.MockRunner;
+import j7.tdd.test.Assert;
+import j7.tdd.test.Test;
 import org.junit.runner.RunWith;
 import prod.Collaborator;
 import prod.UnderTest;
 
-import static mockito.clone.mock.ArgumentMatcher.*;
-import static mockito.clone.mock.CallCount.atLeastOnce;
-import static mockito.clone.mock.CallCount.times;
-import static mockito.clone.mock.EffectfulStubBuilder.when;
-import static mockito.clone.mock.EffectlessStubBuilder.doReturn;
-import static mockito.clone.mock.MockFactory.*;
-import static mockito.clone.mock.VerificationContextFactory.verify;
+import static j7.tdd.mock.ArgumentMatcher.anyInt;
+import static j7.tdd.mock.CallCount.atLeastOnce;
+import static j7.tdd.mock.CallCount.times;
+import static j7.tdd.mock.EffectfulStubBuilder.when;
+import static j7.tdd.mock.EffectlessStubBuilder.doReturn;
+import static j7.tdd.mock.MockFactory.*;
+import static j7.tdd.mock.VerificationContextFactory.verify;
 
 @RunWith(MockRunner.class)
 public class MockTest {

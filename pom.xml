@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>mockito_clone</artifactId>
+    <groupId>org.tdd</groupId>
+    <artifactId>j7-tdd</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -71,8 +71,8 @@
                         </goals>
                         <configuration>
                             <annotationProcessors>
-                                <annotationProcessor>mockito.clone.processor.TestClassProcessor</annotationProcessor>
-                                <annotationProcessor>mockito.clone.processor.StaticInterfaceProcessor</annotationProcessor>
+                                <annotationProcessor>j7.tdd.processor.TestClassProcessor</annotationProcessor>
+                                <annotationProcessor>j7.tdd.processor.StaticInterfaceProcessor</annotationProcessor>
                             </annotationProcessors>
                             <generatedTestSourcesDirectory>${project.build.directory}/generated-test-sources/annotations</generatedTestSourcesDirectory>
                         </configuration>
@@ -95,8 +95,8 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <Premain-Class>mockito.clone.agent.MockAgent</Premain-Class>
-                            <Agent-Class>mockito.clone.agent.MockAgent</Agent-Class>
+                            <Premain-Class>j7.tdd.agent.MockAgent</Premain-Class>
+                            <Agent-Class>j7.tdd.agent.MockAgent</Agent-Class>
                             <Can-Redefine-Classes>true</Can-Redefine-Classes>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                         </manifestEntries>
@@ -149,8 +149,8 @@
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
-                                        <Premain-Class>mockito.clone.agent.MockAgent</Premain-Class>
-                                        <Agent-Class>mockito.clone.agent.MockAgent</Agent-Class>
+                                        <Premain-Class>j7.tdd.agent.MockAgent</Premain-Class>
+                                        <Agent-Class>j7.tdd.agent.MockAgent</Agent-Class>
                                         <Can-Redefine-Classes>true</Can-Redefine-Classes>
                                         <Can-Retransform-Classes>true</Can-Retransform-Classes>
                                     </manifestEntries>
