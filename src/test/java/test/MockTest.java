@@ -1,7 +1,11 @@
-import mockito.clone.Collaborator;
-import mockito.clone.UnderTest;
+package test;
+
 import mockito.clone.mock.ArgumentCaptor;
 import mockito.clone.mock.InOrder;
+import mockito.clone.test.Assert;
+import mockito.clone.test.Test;
+import prod.Collaborator;
+import prod.UnderTest;
 
 import static mockito.clone.mock.ArgumentMatcher.*;
 import static mockito.clone.mock.CallCount.atLeastOnce;
@@ -12,20 +16,9 @@ import static mockito.clone.mock.MockFactory.*;
 import static mockito.clone.mock.VerificationContextFactory.verify;
 
 public class MockTest {
-    public static void main(String[] args) {
-        canSetReturn();
-        argumentMatchers();
-        argumentCaptors();
-        thenThrow();
-        resetWorks();
-        simpleVerify();
-        simpleSpy();
-        returnChaining();
-        effectlessStubbing();
-        orderedVerification();
-    }
 
-    static private void canSetReturn() {
+    @Test
+    public void canSetReturn() {
         Collaborator collaborator = mock(Collaborator.class);
         when(collaborator.getNumberFromSeed(1)).thenReturn(1);
         when(collaborator.getNumberFromSeed(2)).thenReturn(1);
@@ -36,7 +29,8 @@ public class MockTest {
         Assert.equal(output, 2);
     }
 
-    private static void argumentMatchers() {
+    @Test
+    private void argumentMatchers() {
         Collaborator collaborator = mock(Collaborator.class);
         when(collaborator.getNumberFromSeed(anyInt())).thenReturn(1);
 
@@ -46,7 +40,8 @@ public class MockTest {
         Assert.equal(output, 2);
     }
 
-    private static void argumentCaptors() {
+    @Test
+    public void argumentCaptors() {
         ArgumentCaptor<Integer> a = new ArgumentCaptor<>(int.class);
 
         Collaborator collaborator = mock(Collaborator.class);
@@ -60,7 +55,8 @@ public class MockTest {
         Assert.equal(a.get(1), 2);
     }
 
-    public static void thenThrow() {
+    @Test
+    public void thenThrow() {
         String expMessage = "Hello";
         Collaborator collaborator = mock(Collaborator.class);
         when(collaborator.getNumberFromSeed(anyInt())).thenThrow(new RuntimeException(expMessage));
@@ -77,7 +73,8 @@ public class MockTest {
         throw new AssertionError("Exception not thrown");
     }
 
-    public static void resetWorks() {
+    @Test
+    public void resetWorks() {
         Collaborator collaborator = mock(Collaborator.class);
         when(collaborator.getNumberFromSeed(anyInt())).thenReturn(1);
 
@@ -93,7 +90,8 @@ public class MockTest {
         Assert.equal(output, 4);
     }
 
-    public static void simpleVerify() {
+    @Test
+    public void simpleVerify() {
         Collaborator collaborator = mock(Collaborator.class);
         when(collaborator.getNumberFromSeed(anyInt())).thenReturn(1);
 
@@ -105,7 +103,8 @@ public class MockTest {
         Assert.equal(output, 2);
     }
 
-    public static void  simpleSpy() {
+    @Test
+    public void  simpleSpy() {
         Collaborator collaboratorSpy = spy(new Collaborator());
         when(collaboratorSpy.getNumberFromSeed(1)).thenReturn(1);
 
@@ -117,7 +116,8 @@ public class MockTest {
         Assert.equal(output, 5);
     }
 
-    public static void returnChaining() {
+    @Test
+    public void returnChaining() {
         Collaborator collaborator = mock(Collaborator.class);
         when(collaborator.getNumberFromSeed(anyInt()))
                 .thenReturn(1)
@@ -133,7 +133,8 @@ public class MockTest {
 
     }
 
-    public static void  effectlessStubbing() {
+    @Test
+    public void  effectlessStubbing() {
         Collaborator collaboratorSpy = spy(new Collaborator());
         doReturn(1)
                 .thenReturn(2)
@@ -147,7 +148,8 @@ public class MockTest {
         Assert.equal(output, 3);
     }
 
-    public static void orderedVerification() {
+    @Test
+    public void orderedVerification() {
         Collaborator collaborator = mock(Collaborator.class);
         when(collaborator.getNumberFromSeed(anyInt()))
                 .thenReturn(3)

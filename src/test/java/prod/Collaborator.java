@@ -1,4 +1,4 @@
-package mockito.clone;
+package prod;
 
 public class Collaborator implements ICollaborator {
     public int getNumberFromSeed(int a) {
