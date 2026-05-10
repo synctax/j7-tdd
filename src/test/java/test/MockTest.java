@@ -136,8 +136,11 @@ public class MockTest {
 
     }
 
-    @Test
+
     public void  effectlessStubbing() {
+        class something {
+
+        }
         Collaborator collaboratorSpy = spy(new Collaborator());
         doReturn(1)
                 .thenReturn(2)

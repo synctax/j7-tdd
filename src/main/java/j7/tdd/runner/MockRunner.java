@@ -13,7 +13,14 @@ public class MockRunner extends BlockJUnit4ClassRunner {
 
     public MockRunner(Class<?> testClass) throws InitializationError {
         super(testClass);
-        MockAgent.ensureAttached();
+        if (!MockAgent.isAttached()) {
+            throw new InitializationError(
+                    "\n[j7-tdd] Java Agent not detected! \n" +
+                            "This framework requires the agent to be loaded at startup.\n" +
+                            "Please add the following to your JVM arguments / IDE Run Configuration:\n" +
+                            "-javaagent:target/j7-tdd-1.0-SNAPSHOT.jar"
+            );
+        }
     }
 
     @Override
