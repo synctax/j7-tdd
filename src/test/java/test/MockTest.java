@@ -2,8 +2,10 @@ package test;
 
 import mockito.clone.mock.ArgumentCaptor;
 import mockito.clone.mock.InOrder;
+import mockito.clone.runner.MockRunner;
 import mockito.clone.test.Assert;
 import mockito.clone.test.Test;
+import org.junit.runner.RunWith;
 import prod.Collaborator;
 import prod.UnderTest;
 
@@ -15,6 +17,7 @@ import static mockito.clone.mock.EffectlessStubBuilder.doReturn;
 import static mockito.clone.mock.MockFactory.*;
 import static mockito.clone.mock.VerificationContextFactory.verify;
 
+@RunWith(MockRunner.class)
 public class MockTest {
 
     @Test
@@ -30,7 +33,7 @@ public class MockTest {
     }
 
     @Test
-    private void argumentMatchers() {
+    public void argumentMatchers() {
         Collaborator collaborator = mock(Collaborator.class);
         when(collaborator.getNumberFromSeed(anyInt())).thenReturn(1);
 
