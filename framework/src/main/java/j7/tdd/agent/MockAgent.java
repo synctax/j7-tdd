@@ -23,5 +23,7 @@ public class MockAgent {
         return (Instrumentation) System.getProperties().get(INST_KEY);
     }
 
-    public static boolean isAttached() {return getInstrumentation() != null;}
+    public static boolean isAttached() {
+        return getInstrumentation() != null;
+    }
 }

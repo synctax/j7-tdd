@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.tdd</groupId>
+        <artifactId>j7-tdd-parent</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <artifactId>j7-tdd-tests</artifactId>
+    <packaging>jar</packaging>
+
+    <!--
+        The framework's own test suite. Lives in a separate module so that
+        annotation processing can be enabled here without triggering the
+        self-bootstrap loop that single-module setups hit.
+
+        At test-compile time, javac discovers j7.tdd.processor.InlineMockProcessor
+        via the SPI file shipped inside j7-tdd.jar (already built by the time
+        Maven gets here in the reactor), loads it, and runs it against
+        MockTest.java. Warnings emit, and the warning IntelliJ can't render in
+        a single-module setup now appears natively.
+    -->
+
+    <dependencies>
+        <dependency>
+            <groupId>org.tdd</groupId>
+            <artifactId>j7-tdd</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <executions>
+                    <execution>
+                        <id>default-testCompile</id>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                        <configuration>
+                            <!--
+                                NOTE: do not add <proc>both</proc> here.
+                                Java 7 javac only recognises -proc:none and -proc:only;
+                                "both" is the implicit default when -proc is omitted.
+                            -->
+                            <annotationProcessors>
+                                <annotationProcessor>j7.tdd.processor.InlineMockProcessor</annotationProcessor>
+                            </annotationProcessors>
+                            <generatedTestSourcesDirectory>${project.build.directory}/generated-test-sources/annotations</generatedTestSourcesDirectory>
+                            <showWarnings>true</showWarnings>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration>
+                    <!--
+                        The framework jar is built as part of the sibling module's
+                        full lifecycle, which runs first in the reactor. The shade
+                        plugin replaces the main artifact, so this path resolves
+                        to the shaded jar with the agent manifest baked in.
+                    -->
+                    <argLine>-javaagent:${project.basedir}/../framework/target/j7-tdd-${project.version}.jar</argLine>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.9.1</version>
+                <executions>
+                    <execution>
+                        <id>add-generated-test-sources</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-test-sources/annotations</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

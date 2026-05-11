@@ -18,7 +18,7 @@ public class MockRunner extends BlockJUnit4ClassRunner {
                     "\n[j7-tdd] Java Agent not detected! \n" +
                             "This framework requires the agent to be loaded at startup.\n" +
                             "Please add the following to your JVM arguments / IDE Run Configuration:\n" +
-                            "-javaagent:target/j7-tdd-1.0-SNAPSHOT.jar"
+                            "-javaagent:<j7-tdd-jar-path>.jar"
             );
         }
     }

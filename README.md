@@ -105,12 +105,13 @@
 - [ ] inline mocking
   - [ ] constructed mocks
      ```java
+     import org.example.generated.mocks.Constructed;
+    
      @Test
      @InlineTarget(UnderTest.class)
-     public void test(
-       @ConstructionMock(Collaborator.class) ConstructionMock<Collaborator> collaborators 
-     ){
-       collaborators.useInit(new InitMock<Collaborator>() {{
+     @ConstructedMock(Collaborator.class)
+     public void test(){
+       Constructed.collaborator().onConstruct(new InitMock<Collaborator>() {{
          public void init(Collaborator mock) {
             when(mock.collaborate(anyInt())).thenReturn(1);
          }
@@ -121,18 +122,41 @@
        underTest.doThingWithCollaborator(1);
        
        // assert invocations on constructed mocks
-       verify(collaborators.get(0), times(1)).collaborate(1);
+       verify(Constructed.collaborator().get(0), times(1)).collaborate(1);
+     }
+     ```  
+  - [ ] constructed spies
+     ```java
+     import org.example.generated.mocks.Constructed;
+    
+     @Test
+     @InlineTarget(UnderTest.class)
+     @ConstructedSpy(Collaborator.class)
+     public void test(){
+       // the concrete constructor cannot be mocked
+       Constructed.collaborator().onConstruct(new InitMock<Collaborator>() {{
+         public void init(Collaborator mock) {
+            doReturn(1).when(mock).collaborate(1);
+         }
+       }});
+
+       // Collaborator is constructed inline in UnderTest()
+       UnderTest actual = new UnderTest();
+       underTest.doThingWithCollaborator(1);
+       
+       // assert invocations on constructed mocks
+       verify(Constructed.collaborator().get(0), times(1)).collaborate(1);
      }
      ```  
   - [ ] static mocks
     ```java
+     import org.example.generated.mocks.Statics;
+    
      @Test
      @InlineTarget(UnderTest.class)
-     public void test(
-       // non-static interface `CollaboratorStatics` generated at compile time
-       @StaticMock(Collaborator.class) CollaboratorStatics staticCollaborator 
-     ){
-       when(staticCollaborator.staticCollaborate(anyInt())).thenReturn(1);
+     @StaticMock(Collaborator.class)
+     public void test(){
+       when(Statics.collaborator().staticCollaborate(anyInt())).thenReturn(1);
     
        UnderTest actual = new UnderTest();
        underTest.doThingWithStaticCollaborator(1);

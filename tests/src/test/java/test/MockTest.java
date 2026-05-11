@@ -3,8 +3,7 @@ package test;
 import j7.tdd.mock.ArgumentCaptor;
 import j7.tdd.mock.InOrder;
 import j7.tdd.runner.MockRunner;
-import j7.tdd.test.Assert;
-import j7.tdd.test.Test;
+import j7.tdd.test.*;
 import org.junit.runner.RunWith;
 import prod.Collaborator;
 import prod.UnderTest;
@@ -21,6 +20,7 @@ import static j7.tdd.mock.VerificationContextFactory.verify;
 public class MockTest {
 
     @Test
+    @ConstructedMock(Collaborator.class)
     public void canSetReturn() {
         Collaborator collaborator = mock(Collaborator.class);
         when(collaborator.getNumberFromSeed(1)).thenReturn(1);
@@ -138,9 +138,6 @@ public class MockTest {
 
 
     public void  effectlessStubbing() {
-        class something {
-
-        }
         Collaborator collaboratorSpy = spy(new Collaborator());
         doReturn(1)
                 .thenReturn(2)
